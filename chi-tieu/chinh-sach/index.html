@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quyền riêng tư Mầm</title>
+<meta name="description" content="Chính sách quyền riêng tư và bảo mật của ứng dụng Mầm: Quản Lý Chi Tiêu (Mầm Studio).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+  /* Bố cục: một cột đọc, mục lục dính bên trái trên màn rộng; màu lấy từ app Mầm (xanh lá chồi + vàng đồng xu) */
+  :root {
+    --bg: #FBF7EE;
+    --surface: #FFFFFF;
+    --fg: #22301F;
+    --muted: #5E6B5A;
+    --line: #E6E0CF;
+    --accent: #3E6B4F;
+    --accent-soft: #E3EEDF;
+    --coin: #E9B64A;
+    --font: "Be Vietnam Pro", "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A14; --surface: #1C241C; --fg: #E8EDE3; --muted: #A3AE9E; --line: #2D382C;
+      --accent: #8FC39F; --accent-soft: #23362A; --coin: #E9B64A; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A14; --surface: #1C241C; --fg: #E8EDE3; --muted: #A3AE9E; --line: #2D382C;
+    --accent: #8FC39F; --accent-soft: #23362A; --coin: #E9B64A; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.7; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+  header.top { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .mark { width: 56px; height: 56px; flex: none; }
+  .brand { min-width: 0; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: clamp(26px, 4.4vw, 36px); line-height: 1.25; margin: 2px 0 0; font-weight: 700; text-wrap: balance; }
+  .meta { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+  nav.toc p { margin: 0 0 8px; font-weight: 600; color: var(--muted); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; counter-reset: s; }
+  nav.toc a { display: block; padding: 6px 10px; border-radius: 8px; color: var(--fg); text-decoration: none; }
+  nav.toc a:hover, nav.toc a:focus-visible { background: var(--accent-soft); color: var(--accent); outline: none; }
+  main { min-width: 0; max-width: 68ch; }
+  .lead { font-size: 17px; margin: 0 0 8px; }
+  .summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0 8px; padding: 0; list-style: none; }
+  .summary li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.5; }
+  .summary b { display: block; color: var(--accent); font-size: 15px; margin-bottom: 2px; }
+  section { padding-top: 36px; scroll-margin-top: 16px; }
+  h2 { font-size: 22px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; text-wrap: balance; }
+  h3 { font-size: 16.5px; margin: 20px 0 4px; font-weight: 600; }
+  p { margin: 0 0 12px; }
+  ul.list { margin: 0 0 12px; padding-left: 20px; }
+  ul.list li { margin-bottom: 6px; }
+  .table-scroll { overflow-x: auto; margin: 8px 0 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14.5px; line-height: 1.5; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 13px; letter-spacing: 0.03em; }
+  tr:last-child td { border-bottom: 0; }
+  .path { display: inline-block; background: var(--accent-soft); color: var(--accent); font-weight: 600; padding: 1px 8px; border-radius: 6px; font-size: 14.5px; }
+  .note { border-left: 3px solid var(--coin); padding: 4px 0 4px 14px; color: var(--muted); margin: 12px 0; }
+  .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .contact code { font-family: var(--font); font-weight: 600; font-size: 16px; user-select: all; overflow-wrap: anywhere; }
+  .contact button { font: inherit; font-size: 14px; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 8px; padding: 4px 12px; cursor: pointer; }
+  .contact button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a { color: var(--accent); }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-block: 24px 48px; }
+    nav.toc { position: static; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+    .summary { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <svg class="mark" viewBox="0 0 56 56" aria-hidden="true">
+      <circle cx="28" cy="32" r="20" fill="var(--coin)"/>
+      <circle cx="28" cy="32" r="15" fill="none" stroke="#C99631" stroke-width="2"/>
+      <path d="M28 12 C28 8 28 6 28 4" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M28 8 C22 2 15 4 15 9 C21 11 25 10 28 8 Z" fill="var(--accent)"/>
+      <path d="M28 7 C33 1 41 3 41 8 C35 10 31 9 28 7 Z" fill="var(--accent)"/>
+      <circle cx="22" cy="31" r="2" fill="#5A3E12"/><circle cx="34" cy="31" r="2" fill="#5A3E12"/>
+      <path d="M23 37 Q28 41 33 37" stroke="#5A3E12" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="brand">
+      <div class="eyebrow">Mầm Studio</div>
+      <h1>Chính sách quyền riêng tư và bảo mật</h1>
+      <div class="meta">Ứng dụng Mầm: Quản Lý Chi Tiêu · Cập nhật ngày 16/11/2026</div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Mục lục">
+    <p>Mục lục</p>
+    <ol>
+      <li><a href="#tom-tat">Tóm tắt</a></li>
+      <li><a href="#du-lieu">Dữ liệu chúng tôi xử lý</a></li>
+      <li><a href="#quyen-truy-cap">Quyền truy cập trên điện thoại</a></li>
+      <li><a href="#ben-thu-ba">Dịch vụ bên thứ ba</a></li>
+      <li><a href="#bao-mat">Bảo mật</a></li>
+      <li><a href="#luu-tru">Thời gian lưu trữ</a></li>
+      <li><a href="#xoa-tai-khoan">Xóa dữ liệu và tài khoản</a></li>
+      <li><a href="#tre-em">Trẻ em</a></li>
+      <li><a href="#thay-doi">Thay đổi chính sách</a></li>
+      <li><a href="#lien-he">Liên hệ</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="tom-tat" style="padding-top:0">
+      <p class="lead">Mầm là ứng dụng ghi chép thu chi cá nhân do <b>Mầm Studio</b> phát triển. Trang này giải thích dữ liệu nào được xử lý, vì sao, ai có thể thấy, và cách bạn xóa dữ liệu của mình.</p>
+      <ul class="summary">
+        <li><b>Dữ liệu nằm trên máy bạn</b>Không đăng nhập thì sổ thu chi chỉ lưu trên điện thoại, không gửi đi đâu.</li>
+        <li><b>Không kết nối ngân hàng</b>Không hỏi số tài khoản, số thẻ, mật khẩu hay mã OTP ngân hàng.</li>
+        <li><b>Không bán dữ liệu</b>Không bán, không cho thuê, không dùng dữ liệu của bạn để quảng cáo.</li>
+        <li><b>Xóa bất cứ lúc nào</b>Xóa tài khoản ngay trong app, dữ liệu trên máy chủ bị xóa vĩnh viễn.</li>
+      </ul>
+    </section>
+
+    <section id="du-lieu">
+      <h2>1. Dữ liệu chúng tôi xử lý</h2>
+      <h3>Sổ thu chi bạn nhập</h3>
+      <p>Gồm tên ví, số dư, các khoản thu chi, danh mục, ghi chú, ngân sách, khoản vay nợ và giao dịch định kỳ. Mục đích duy nhất là hiển thị sổ, báo cáo và lời nhắc cho chính bạn.</p>
+      <ul class="list">
+        <li><b>Không đăng nhập:</b> dữ liệu chỉ lưu trong bộ nhớ riêng của ứng dụng trên điện thoại.</li>
+        <li><b>Có đăng nhập:</b> dữ liệu được sao lưu lên máy chủ Supabase đặt tại Singapore để bạn dùng trên điện thoại khác và không mất khi đổi máy.</li>
+      </ul>
+      <h3>Thông tin tài khoản</h3>
+      <ul class="list">
+        <li><b>Đăng nhập bằng email:</b> địa chỉ email của bạn, và mật khẩu nếu bạn tự đặt. Mật khẩu do Supabase lưu ở dạng băm, chúng tôi không đọc được.</li>
+        <li><b>Đăng nhập bằng Google:</b> email, tên hiển thị và ảnh đại diện từ tài khoản Google. Chúng tôi không nhận mật khẩu Google và không truy cập Gmail, Drive hay danh bạ của bạn.</li>
+      </ul>
+      <p>Thông tin này chỉ dùng để nhận diện tài khoản, đồng bộ dữ liệu và giữ quyền lợi gói của bạn.</p>
+      <h3>Ảnh đại diện trong ứng dụng</h3>
+      <p>Hình đại diện bạn chọn trong ứng dụng là hình có sẵn của Mầm (không phải ảnh của bạn). Nếu bạn đăng nhập, lựa chọn này được lưu kèm tài khoản để hiện đúng trên điện thoại khác.</p>
+      <h3>Góp ý bạn gửi</h3>
+      <p>Khi bạn gửi góp ý trong mục <span class="path">Cá nhân → Góp ý cho Mầm</span>, chúng tôi lưu nội dung góp ý, loại góp ý, phiên bản ứng dụng, hệ điều hành và ngôn ngữ. Nếu bạn đang đăng nhập, góp ý được gắn với tài khoản và email để bạn xem câu trả lời trên mọi máy.</p>
+      <p>Để trả lời nhanh, nội dung góp ý có thể được một trợ lý AI do Mầm Studio vận hành đọc để phân loại và soạn câu trả lời. Trợ lý chỉ nhận nội dung góp ý, loại, phiên bản và hệ điều hành, <b>không</b> nhận email hay dữ liệu sổ thu chi của bạn. Mầm Studio chịu trách nhiệm về câu trả lời gửi cho bạn.</p>
+      <h3>Ảnh đính kèm</h3>
+      <p>Ảnh bạn chụp hoặc chọn để đính kèm vào một khoản chi được lưu trong bộ nhớ riêng của ứng dụng trên điện thoại. Ảnh <b>không</b> được sao lưu lên máy chủ.</p>
+      <h3>Thông tin ngân hàng</h3>
+      <p>Ứng dụng không kết nối với bất kỳ ngân hàng hay ví điện tử nào. Tên ví như “Vietcombank” hay “MoMo” chỉ là nhãn bạn tự đặt để ghi chép thủ công.</p>
+      <h3>Tỷ giá ngoại tệ</h3>
+      <p>Để quy đổi khoản ghi bằng USD, ứng dụng tải tỷ giá công khai (từ trang tỷ giá của Vietcombank, hoặc nguồn tỷ giá quốc tế khi không lấy được). Việc này không gửi đi dữ liệu cá nhân hay dữ liệu sổ thu chi nào.</p>
+      <h3>Quảng cáo và theo dõi</h3>
+      <p>Phiên bản hiện tại <b>không có quảng cáo</b> và không cài công cụ phân tích hay theo dõi hành vi người dùng. Nếu sau này có thay đổi, chúng tôi sẽ cập nhật trang này trước khi áp dụng.</p>
+      <h3>Thanh toán</h3>
+      <p>Phiên bản hiện tại miễn phí. Nếu sau này có gói trả phí, việc thanh toán sẽ do Google Play hoặc App Store xử lý. Chúng tôi chỉ nhận trạng thái gói (đã mua hay chưa), không nhận thông tin thẻ.</p>
+    </section>
+
+    <section id="quyen-truy-cap">
+      <h2>2. Quyền truy cập trên điện thoại</h2>
+      <p>Ứng dụng chỉ xin quyền khi bạn dùng đến tính năng cần quyền đó. Bạn có thể tắt bất kỳ quyền nào trong Cài đặt của điện thoại.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Quyền</th><th scope="col">Dùng để</th><th scope="col">Dữ liệu đi đâu</th></tr></thead>
+          <tbody>
+            <tr><td>Micro</td><td>Ghi khoản chi bằng giọng nói</td><td>Âm thanh được dịch vụ nhận dạng giọng nói của hệ điều hành (Google trên Android, Apple trên iPhone) chuyển thành chữ. Ứng dụng chỉ nhận lại phần chữ, không lưu và không gửi đoạn ghi âm.</td></tr>
+            <tr><td>Máy ảnh, thư viện ảnh</td><td>Đính kèm ảnh vào khoản chi</td><td>Lưu trên điện thoại, không tải lên máy chủ.</td></tr>
+            <tr><td>Thông báo</td><td>Nhắc ghi chép buổi tối, cảnh báo ngân sách</td><td>Thông báo được tạo ngay trên điện thoại.</td></tr>
+            <tr><td>Vân tay, khuôn mặt</td><td>Khóa ứng dụng</td><td>Hệ điều hành tự kiểm tra. Ứng dụng chỉ nhận kết quả đúng hoặc sai, không bao giờ nhận dữ liệu sinh trắc học.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="ben-thu-ba">
+      <h2>3. Dịch vụ bên thứ ba</h2>
+      <p>Chúng tôi dùng một số nhà cung cấp để vận hành ứng dụng. Họ chỉ nhận phần dữ liệu cần cho việc của họ.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Nhà cung cấp</th><th scope="col">Việc họ làm</th><th scope="col">Dữ liệu họ nhận</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase</a></td><td>Đăng nhập và lưu bản sao lưu sổ thu chi (máy chủ tại Singapore)</td><td>Email, thông tin tài khoản, dữ liệu sổ thu chi của người đã đăng nhập</td></tr>
+            <tr><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google</a></td><td>Đăng nhập bằng Google, nhận dạng giọng nói trên Android</td><td>Thông tin đăng nhập Google, âm thanh khi bạn dùng ghi bằng giọng nói</td></tr>
+            <tr><td><a href="https://www.brevo.com/legal/privacypolicy/" target="_blank" rel="noopener">Brevo</a></td><td>Gửi email chứa mã xác nhận và mã đặt lại mật khẩu</td><td>Địa chỉ email nhận mã</td></tr>
+            <tr><td><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic (Claude)</a></td><td>Trợ lý AI đọc góp ý để phân loại và soạn câu trả lời</td><td>Nội dung góp ý, loại, phiên bản ứng dụng và hệ điều hành. Không có email, không có dữ liệu sổ thu chi</td></tr>
+            <tr><td><a href="https://expo.dev/privacy" target="_blank" rel="noopener">Expo</a></td><td>Gửi bản cập nhật nhỏ cho ứng dụng</td><td>Thông tin kỹ thuật như phiên bản ứng dụng và hệ điều hành, không có dữ liệu sổ thu chi</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Chúng tôi không chia sẻ dữ liệu với bên nào khác, trừ khi pháp luật Việt Nam bắt buộc theo yêu cầu hợp lệ của cơ quan có thẩm quyền.</p>
+    </section>
+
+    <section id="bao-mat">
+      <h2>4. Bảo mật</h2>
+      <ul class="list">
+        <li><b>Mã hóa khi truyền:</b> mọi kết nối giữa ứng dụng và máy chủ dùng HTTPS (TLS).</li>
+        <li><b>Mỗi người chỉ thấy dữ liệu của mình:</b> cơ sở dữ liệu bật kiểm soát truy cập theo từng dòng (Row Level Security). Một tài khoản không thể đọc hay sửa dữ liệu của tài khoản khác.</li>
+        <li><b>Không có khóa bí mật trong ứng dụng:</b> ứng dụng chỉ chứa khóa công khai được phép phát hành. Các khóa quản trị không bao giờ nằm trên điện thoại.</li>
+        <li><b>Mật khẩu và mã qua email:</b> mật khẩu được lưu ở dạng băm. Mã đặt lại mật khẩu gửi qua email có hạn dùng ngắn và chỉ dùng được một lần.</li>
+        <li><b>Khóa ứng dụng:</b> bạn có thể bật khóa bằng vân tay hoặc khuôn mặt trong mục Cá nhân.</li>
+        <li><b>Hạn chế người truy cập:</b> chỉ người phát triển của Mầm Studio có quyền quản trị máy chủ, và chỉ truy cập dữ liệu khi cần xử lý yêu cầu hỗ trợ của chính bạn.</li>
+      </ul>
+      <p class="note">Không hệ thống nào an toàn tuyệt đối. Hãy khóa màn hình điện thoại và không chia sẻ mật khẩu hay mã nhận qua email cho ai. Nếu phát hiện lỗ hổng bảo mật, vui lòng báo cho chúng tôi qua email ở mục Liên hệ. Nếu xảy ra sự cố ảnh hưởng tới dữ liệu của bạn, chúng tôi sẽ thông báo qua email tài khoản.</p>
+    </section>
+
+    <section id="luu-tru">
+      <h2>5. Thời gian lưu trữ</h2>
+      <p>Dữ liệu được giữ cho tới khi bạn xóa. Khi bạn xóa tài khoản, tài khoản và toàn bộ dữ liệu sổ thu chi trên máy chủ bị xóa ngay. Góp ý bạn đã gửi được tách khỏi tài khoản và xóa email đi kèm; nội dung góp ý không còn gắn với bạn có thể được giữ lại để cải thiện ứng dụng. Bản sao lưu kỹ thuật của nhà cung cấp máy chủ (nếu có) tự hết hạn theo chu kỳ của nhà cung cấp.</p>
+    </section>
+
+    <section id="xoa-tai-khoan">
+      <h2>6. Xóa dữ liệu và tài khoản</h2>
+      <h3>Xóa ngay trong ứng dụng</h3>
+      <ul class="list">
+        <li>Xóa tài khoản: <span class="path">Cá nhân → Tài khoản → Xóa tài khoản</span>. Tài khoản, email và toàn bộ dữ liệu trên máy chủ bị xóa vĩnh viễn ngay lập tức.</li>
+        <li>Chỉ xóa dữ liệu: <span class="path">Cá nhân → Xóa toàn bộ dữ liệu</span>. Nếu đang đăng nhập, dữ liệu trên máy chủ cũng bị xóa.</li>
+        <li>Xuất dữ liệu trước khi xóa: <span class="path">Cá nhân → Xuất dữ liệu</span>.</li>
+      </ul>
+      <h3>Yêu cầu xóa qua email</h3>
+      <p>Nếu bạn không còn cài ứng dụng, hãy gửi email từ chính địa chỉ đã đăng nhập tới hộp thư ở mục Liên hệ, tiêu đề <b>“Xóa tài khoản Mầm”</b>. Chúng tôi xóa tài khoản cùng toàn bộ dữ liệu liên quan trong vòng 7 ngày và trả lời xác nhận.</p>
+    </section>
+
+    <section id="tre-em">
+      <h2>7. Trẻ em</h2>
+      <p>Ứng dụng không dành cho trẻ em dưới 13 tuổi và không cố ý thu thập thông tin của trẻ em. Nếu bạn biết một trẻ em đã tạo tài khoản, hãy báo để chúng tôi xóa.</p>
+    </section>
+
+    <section id="thay-doi">
+      <h2>8. Thay đổi chính sách</h2>
+      <p>Khi chính sách thay đổi, chúng tôi cập nhật trang này kèm ngày hiệu lực mới. Thay đổi quan trọng sẽ được báo trong ứng dụng.</p>
+    </section>
+
+    <section id="lien-he">
+      <h2>9. Liên hệ</h2>
+      <p>Mọi câu hỏi về quyền riêng tư, bảo mật hoặc yêu cầu xóa dữ liệu:</p>
+      <div class="contact">
+        <code id="email">dev.mamstudio@gmail.com</code>
+        <button type="button" id="copy">Sao chép</button>
+      </div>
+      <footer>© 2026 Mầm Studio · Mầm: Quản Lý Chi Tiêu</footer>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.getElementById('copy').addEventListener('click', function () {
+    var b = this, t = document.getElementById('email').textContent;
+    var done = function () { b.textContent = 'Đã sao chép'; setTimeout(function () { b.textContent = 'Sao chép'; }, 1600); };
+    var pick = function () { var r = document.createRange(); r.selectNodeContents(document.getElementById('email')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText(t).then(done, pick); } catch (e) { pick(); }
+  });
+</script>
+</body>
+</html>
